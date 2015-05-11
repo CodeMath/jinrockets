@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<link href="{{ url_for('static', filename='css/write_main.css') }}" rel="stylesheet">
+<!-- Main component for a primary marketing message or call to action -->
+<div class="container">
+	<div class="jumbotron">
+		<form action="" method="post" class="basic-grey">
+			<h1>상세정보입력 2단계
+				<span></span>
+			</h1>             
+			<label>
+				<span>나의 진로 :</span>
+				<input id="job" type="text" name="my_job" placeholder="내가 선택한 진로는?" />
+			</label>
+			<label>
+				<span>진로선택 이유 :</span>
+				<textarea id="message" name="job_reason" placeholder="졸업후 진출하고 싶은 분야, 본인이 하고 싶은일, 본인의 진로고민, 왜 그러한 진로를 설정하게 되었고 그분야에 진출하고 싶은지 자세히 기술해주세요."></textarea>
+			</label> 
+			<label>
+        		<span>전공연관도 :</span>
+        			<select name="point_major">
+        				<option value="100">100%</option>
+        				<option value="80">80%</option>
+        				<option value="60">60%</option>
+        				<option value="40">40%</option>
+        				<option value="20">20%</option>
+        				<option value="0">0%</option>
+        			</select>
+    		</label>
+    		<label>
+        		<span>자격증 연관도 :</span>
+        			<select name="point_licence">
+        				<option value="100">100%</option>
+        				<option value="80">80%</option>
+        				<option value="60">60%</option>
+        				<option value="40">40%</option>
+        				<option value="20">20%</option>
+        				<option value="0">0%</option>
+        			</select>
+    		</label> 
+    		<label>
+        		<span>독서 연관도 :</span>
+        			<select name="point_reading">
+        				<option value="100">100%</option>
+        				<option value="80">80%</option>
+        				<option value="60">60%</option>
+        				<option value="40">40%</option>
+        				<option value="20">20%</option>
+        				<option value="0">0%</option>
+        			</select>
+    		</label>
+    		<label>
+        		<span>복수전공 연관도 :</span>
+        			<select name="point_double_major">
+        				<option value="100">100%</option>
+        				<option value="80">80%</option>
+        				<option value="60">60%</option>
+        				<option value="40">40%</option>
+        				<option value="20">20%</option>
+        				<option value="0">0%</option>
+        			</select>
+    		</label>
+    		<label>
+        		<span>대외활동 연관도 :</span>
+        			<select name="point_extra">
+        				<option value="100">100%</option>
+        				<option value="80">80%</option>
+        				<option value="60">60%</option>
+        				<option value="40">40%</option>
+        				<option value="20">20%</option>
+        				<option value="0">0%</option>
+        			</select>
+    		</label>
+           <!--  <label>
+                <span>기타1 연관도 :</span>
+                    <select name="point_ex_1">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+            <label>
+                <span>기타2 연관도 :</span>
+                    <select name="point_ex_2">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>  -->
+			<label>
+				<span>복수전공유무 :</span>
+					<input id="check1" type="radio" name="check_double_major" value="no">아니오
+                    <input id="check2" type="radio" name="check_double_major" value="yes">예
+			</label>
+			<label>
+                <br>
+				<span>복수전공명 :</span>
+				<input id="double_major" type="text" name="double_major" placeholder="없으면 쓰지마시." />
+			</label>    
+		<label>
+			<span>&nbsp;</span> 
+			<input type="submit" class="button" value="완료!" /> 
+		</label>    
+	</form>
+</div>	
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

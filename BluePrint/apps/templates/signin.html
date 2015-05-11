@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script>{% if alert %}alert("이메일 주소가 없습니다.")rt{% endif %}</script>
+<script>{% if alert1 %}alert("비밀번호를 확인해주세요.")rt{% endif %}</script>
+<link rel="stylesheet" type="text/css" href="/static/css/signin.css" />
+<script src="/static/js/modernizr.custom.63321.js"></script>
+
+<section class="main">
+  <form class="form-1" "{{url_for('signin')}}" method="post">
+    <p class="field">
+      <input type="text" name="user_email" class="label_better" placeholder="Enter your Email">
+      <i style="padding-top: 10px;"><span class="glyphicon glyphicon-user"></span></i>
+    </p>
+    <p class="field">
+      <input type="password" name="user_password" class="label_better"  placeholder="Enter your Password">
+      <i style="padding-top: 10px;"><span class="glyphicon glyphicon-stats"></span></i>
+    </p>
+    <p class="submit">
+      <button type="submit" name="submit"><span class="glyphicon glyphicon-ok"></span></button>
+    </p>
+  </form>
+</section>
+
+    {% endblock %}

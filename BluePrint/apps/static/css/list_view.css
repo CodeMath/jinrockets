@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Nanum';
+  src: url('../fonts/NanumBarunGothic.otf');
+}
+
+@font-face {
+  font-family: 'NanumBold';
+  src: url('../fonts/NanumGothicBold.otf');
+}
+
+@font-face {
+  font-family: 'Nixgon';
+  src: url('../fonts/NIXGON.otf');
+}
+
+.nic_font{
+	font-family: "Nanum", sans-serif,Arial;
+}
+
+.infor_font{
+	font-family: "Nanum", sans-serif,Arial;	
+}
+
+.job_font{
+	font-family: "NanumBold", sans-serif,Arial;		
+}
+
+
+.jumbotron{ background-color: rgb(180,181,181);}
+.content_body{text-align: center; height: 260px;}
+.nic{ border-radius: 15px; height: 115px; background-color: rgb(255,255,255)}
+.majors{ border-radius: 15px; height: 115px; background-color: rgb(255,255,255); margin-top: 10px; margin-bottom: 25px;}
+.reasons{font-size:12px; font-family: "Nixgon", sans-serif, Arial;}

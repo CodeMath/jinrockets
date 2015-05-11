@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+$(document).ready(function(){ $('#containers,*').mousewheel(function(e, delta){ this.scrollLeft -= (delta * 40); e.preventDefault(); }); });</script>    
+<script src="/static/js/Chart.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.11/jquery.mousewheel.js"></script>
+<link href="{{ url_for('static', filename='css/infor.css') }}" rel="stylesheet">
+<script src="/static/js/bootstrap.js"></script>
+
+
+<!-- Main component for a primary marketing message or call to action -->
+<div class="row">
+  <div class="col-md-8 col-md-offset-2" id="top_part"> 
+    <div class="row">
+      <!-- 왼쪽 -->
+      <div class="col-xs-4" id="left_part">
+        <div class="left_side">
+          <h2>{{ name }}</h2>
+          <h1> 학과 평점: {{ zeros }}</h1>  
+        </div>
+      </div>
+      <!-- 중앙 -->
+      <div class="col-xs-4" id="center_part">
+        <h3>우리학과 한 줄평</h3>
+        {% for each in infors['comment_list'] %}
+        <button data-toggle="modal" style="border: none; background-color: rgb(255,255,255); width: 250px; border-radius: 10px; margin-bottom: 5px;" data-target="#myModal-{{ each.id }}"><p>{{ each.major_comment|truncate(19) }}</p></button> <br>
+        {% endfor %}
+      </div>
+      <!-- 오른쪽 -->
+      <div class="col-xs-3" id="right_part">
+        <div id="canvas-holder">
+          <canvas id="chart-area" width="130" height="130"/>
+        </div>
+      </div>   
+    </div>
+  </div>
+</div>    
+
+
+
+
+<!-- 하단 부 -->
+<div class="row"> 
+  <div id="containers" style="border:2px solid rgb(20,50,20);">
+    {% for each in infors['major_jobs_label']%}
+    <div class="sections">
+      <!-- 진로명 버튼 -->
+      <button class="btn btn-primary btn"  data-toggle="modal" data-target="#myModal-{{ each.id }}">
+        <p><span class="glyphicon glyphicon-tasks"></span>&nbsp;{{ each.job|truncate(10) }}</p>
+      </button>
+      <p><span class="glyphicon glyphicon-user"></span>&nbsp;{{ each.nic_name }}</p>
+      <div style="width:55%; margin-left: 80px">
+        <canvas id="canvas-{{ each.id }}" class="canvas-{{ each.id }}" height="130" width="130"></canvas>
+      </div>
+    </div>
+    {% endfor %} 
+    <div class="clear"></div>
+  </div>
+</div>
+
+
+<!-- 팝업-->
+{% for each in infors['major_jobs_label']%}
+<div class="modal fade" id="myModal-{{ each.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">X</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel{{ each.id }}"> {{ each.nic_name }}님의&nbsp;{{ each.job|truncate(14) }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(키보드 화살표 아래방향을 누르세요.)</h4>
+      </div>
+
+      <!-- 내용 -->
+      <div class="modal-body">
+        <div class="1_section">
+          <div class="row">
+            <div class="col-sm-5 col-sm-offset-2" id="section_left_1" style="display: inline;">
+              <h1><span class="glyphicon glyphicon-search"></span>&nbsp;{{ each.job }}</h1>
+              <div class="tops">
+                <h4> <span class="glyphicon glyphicon-stats"></span>&nbsp; 학과 평점 : &nbsp;{{ each.major_like }}</h4> 
+                <h4> <span class="glyphicon glyphicon-stats"></span>&nbsp; 한줄 평가 :&nbsp;</h4>
+                <h4> {{ each.major_comment }}</h4>      
+              </div>
+            </div>
+            <div class="col-sm-5" id="section_right_1" style="display: inline; z-index: 1060;">
+              <div class="rader_chart-{{ each.id }}" style="width:150px; height: 150px; margin: 0 auto; margin-top: 10px;">
+                <canvas id="canvas-{{ each.id }}" class="canvas-{{ each.id }}" height="130" width="130" style="background-color: rgb(255,255,255); ;padding:10px; padding-left: 10px;padding-right: 10px;;border-radius: 8px;"></canvas>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section_2">
+          <div class="row" id="section_2">
+            <div class="col-sm-12">
+              <h4><span class="glyphicon glyphicon-comment"></span>&nbsp; 우리 학과..? :&nbsp; {{ each.major_story }}</h4>    
+            </div>
+          </div>
+        </div>
+        <div class="section_3">
+          <div class="row" id="section_3">
+            <div class="col-sm-12">
+              <h4><span class="glyphicon glyphicon-briefcase"></span>&nbsp; 나의 진로 : &nbsp;{{ each.job }}</h4> 
+            </div>
+          </div>
+          <div class="row" id="section_4">
+            <div class="col-sm-12">
+              <h4><span class="glyphicon glyphicon-briefcase"></span>&nbsp; 진로 선택 이유? : &nbsp;{{ each.job_reason }}</h4>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+<script>
+function count_sections(){
+  var count = document.querySelectorAll("div.sections").length
+  var width_containers = document.getElementById('containers').style.width = 450*(count) + "px"
+}
+count_sections();
+</script>
+
+<script>
+var radarChartData_set=[]
+{% for each in infors['major_jobs_label'] %}
+var radarChartData{{each.id}} = {
+  labels: ["전공", "자격증", "복수전공", "대외활동", "독서"],datasets: [{label: "relations",fillColor: "rgba(221,148,20,0.2)",strokeColor: "rgba(248,182,44,1)",pointColor: "rgba(221,148,20,1)",pointStrokeColor: "rgb(255,255,255)",pointHighlightFill: "rgb(221,148,20)",pointHighlightStroke: "rgba(248,182,44,1)",data: [{{ each.point_major }},{{ each.point_licence }},{{ each.point_double_major }},{{ each.point_reading }},{{ each.point_extra }}]}]};
+radarChartData_set.push( radarChartData{{ each.id }} )
+{% endfor %}
+var id_count_set=[ {% for each in infors['major_jobs_label'] %}{{ each.id }},{% endfor %} ];
+var color_variation=['#ED4E6B','#FFEE77','#8AADFF','#69C7C7','#85C9A5','#5CDB58','#96B55E','#3E6F6B','#8C3504','#CC0089','#6C00A6','#140080','#1AB084','#D1FF33','#5985A1','#AD5310','#FF0317','#00E092','#0092E0','#0C6600']
+var list = {{ infors['major_jobs_count'] | tojson }}; var real = [] // list
+
+for(i=0; i<list.length; i++){
+  var now = { value: list[i].count, color: color_variation[i], highlight: color_variation[i], label: list[i].job };
+  real.push( now );
+}
+window.onload = function(){
+  // 도넛 차트
+  var ctx = document.getElementById("chart-area").getContext("2d");
+  window.myDoughnut = new Chart(ctx).Doughnut(real, {responsive : true});
+  // 각각의 학과
+  for (var i=0; i<id_count_set.length; i++){
+    var chart_input=document.getElementsByClassName("canvas-"+id_count_set[i])[0];
+    window.myRadar = new Chart(chart_input.getContext("2d")).Radar(radarChartData_set[i], {
+      responsive: true
+    });
+  };
+};
+</script>
+
+
+<!-- 모달창 & 레이더 차트 호출  -->
+<script>
+function read(){
+{% for each in infors['major_jobs_label']%}
+  $('#myModal-{{ each.id }}').on('show.bs.modal', function () {
+    $('.btn').click(function(){
+
+    var radarChartData{{each.id}} = {
+      labels: ["전공", "자격증", "복수전공", "대외활동", "독서"],
+      datasets: [
+      {
+        label: "relations",
+        fillColor: "rgba(221,148,20,0.2)",
+        strokeColor: "rgba(248,182,44,1)",
+        pointColor: "rgba(221,148,20,1)",
+        pointStrokeColor: "rgb(255,255,255)",
+        pointHighlightFill: "rgb(221,148,20)",
+        pointHighlightStroke: "rgba(248,182,44,1)",
+        data: [{{ each.point_major }},{{ each.point_licence }},{{ each.point_double_major }},{{ each.point_reading }},{{ each.point_extra }}]
+      }
+      ]
+    };
+  })
+});
+var chart_input=document.getElementsByClassName("canvas-{{ each.id }}")[1];
+window.myRadar = new Chart(chart_input.getContext("2d")).Radar(radarChartData{{ each.id }}, { responsive: true })
+{% endfor %}   
+}
+
+read()
+</script>
+
+
+
+{% endblock %}

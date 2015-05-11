@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<link href="{{ url_for('static', filename='css/list_view.css') }}" rel="stylesheet">
+<script src="/static/js/Chart.js"></script>
+
+<div class="row">
+
+  <div class="col-md-2" style="padding-left: 30px;">
+    <ul class="nav nav-sidebar" style="margin: 0 auto; text-align: center;">
+      <a href="/list_view/libera"><img src="../static/img/department/libera1.png" alt="문과" style="width: 50%; margin:10px; margin-left: 80px;"></a>
+      <a href="/list_view/science"><img src="../static/img/department/science1.png" alt="이과" style="width: 50%; margin:10px; margin-left: 80px;"></a>
+      <a href="/list_view/art"><img src="../static/img/department/art1.png" alt="예술" style="width: 50%; margin:10px; margin-left: 80px;" ></a>
+      <a href="/list_view/training"><img src="../static/img/department/training1.png" alt="체육" style="width: 50%; margin:10px; margin-left: 80px;"></a>
+    </div>
+
+    <div class="col-md-8">
+      <div class="jumbotron">
+        
+        {% for each in content['major_job'] %}
+        <div class = "content_body">
+          <!-- 각 컨텐츠 부분 -->
+          <div class="row" style="background-color: rgb(220,220,221); border-radius: 15px;">
+            <!-- 왼쪽 -->
+            <div class="col-sm-4" style="margin-top: 25px;">
+              <!-- 닉네임 -->
+              <div class="nic">
+                <img src="../static/img/content/nic.png" style="width:75px;margin: 0 auto; padding-top: 10px;">
+                <h3 class="nic_font">{{ each.nic_name|truncate(12) }}</h3>
+              </div>
+              <!-- 학과명 -->
+              <div class="majors">
+                <img src="../static/img/content/major.png" style="width:82px; margin: 0 auto; padding-top: 10px;">
+                <h3 class="infor_font"><a href="{{url_for('infor', name=each.major)}}">{{ each.major|truncate(14) }}</a></h3>
+                {% if master %}
+                  <a href="{{url_for('delete', name=each.id)}}">마스터 권한으로 삭제[복구 불가]</a>
+                {% endif %}
+              </div>
+            </div>
+            <!-- 중앙 -->
+            <div class="col-sm-4" style=" margin-top:25px; margin-bottom:25px; border-radius: 15px; height: 240px;background-color: rgb(255,255,255);">
+              <!-- 진로 상단-->
+              <div>
+                <img src="../static/img/content/career.png" style="width:55px; margin: 0 auto; padding-top: 10px;">
+                <h3 class="job_font"> {{ each.job|truncate(14) }} </h3>  
+              </div>
+              <br>  
+              <!-- 진로 하단-->
+              <div>
+                <p class="reasons">{{ each.job_reason|truncate(38) }}</p>  
+              </div>
+            </div>
+            <!-- 레이더 그래프 -->
+            <div class="col-sm-4" style="margin-bottom: 25px; margin-top: 25px;">
+              <div style="width:240px;; margin: 0 auto;">
+                <canvas id="canvas" class="canvas-{{ each.id }}" height="240" width="240"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        {% endfor %}
+        <div id="additional"> </div> 
+        
+      </div>
+    </div>
+
+    <div class="col-md-2" style="padding-left: 30px;">
+      <ul class="nav nav-sidebar" style="margin: 0 auto; text-align: center;">
+        <img src="../static/img/ranking.png" alt="문과" style="width: 180px; margin-left: -45px; padding-top: 20px;">
+        <li>테스트중</li>
+      </ul>
+    </div>
+
+
+  </div>  
+
+
+
+
+</div>
+
+<!-- chart javascript -->
+<script>
+var radarChartData_set=[]
+{% for each in content['major_job'] %}
+
+var radarChartData{{each.id}} = {
+  labels: ["전공", "자격증", "복수전공", "대외활동", "독서" ],
+  datasets: [
+  {
+    label: "relations",
+    fillColor: "rgba(221,148,20,0.2)",
+    strokeColor: "rgba(248,182,44,1)",
+    pointColor: "rgba(221,148,20,1)",
+    pointStrokeColor: "rgb(255,255,255)",
+    pointHighlightFill: "rgb(221,148,20)",
+    pointHighlightStroke: "rgba(248,182,44,1)",
+    data: [{{ each.point_major }},{{ each.point_licence }},{{ each.point_double_major }},{{ each.point_reading }},{{ each.point_extra }}]
+  }
+  ]
+};
+radarChartData_set.push( radarChartData{{ each.id }} )
+{% endfor %}
+
+var id_count_set=[
+{% for each in content['major_job'] %}
+{{ each.id }},
+{% endfor %}
+]
+window.onload = function(){
+
+  for (var i=0; i<id_count_set.length; i++){
+    var x=document.getElementsByClassName("canvas-"+id_count_set[i])[0];
+    window.myRadar = new Chart(x.getContext("2d")).Radar(radarChartData_set[i], {
+      responsive: true
+    }); 
+  }
+
+}
+
+</script>
+{% endblock %}

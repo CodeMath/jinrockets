@@ -1,0 +1,227 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<link href="{{ url_for('static', filename='css/write_main.css') }}" rel="stylesheet">
+
+
+<script>
+$(document).ready(function(){  
+    $("#major_story").val("{{ this.major_story }}");
+    $("#job_reason").val("{{ this.job_reason }}");
+  });
+</script>
+
+<!-- Main component for a primary marketing message or call to action -->
+<div class="container">
+    <div class="jumbotron">
+        <form action="" method="post" class="basic-grey">
+            <h1>상세정보입력
+                <span></span>
+            </h1>
+            
+            <label>
+                <span>신분 선택 :</span>
+                {% if this.user_category == "청소년" %}
+                <input id="user_category1" type="radio" name="user_category" value="청소년" checked="checked">청소년
+                <input id="user_category2" type="radio" name="user_category" value="신입생">신입생
+                <input id="user_category2" type="radio" name="user_category" value="복학생">복학생
+                <input id="user_category2" type="radio" name="user_category" value="취준생">취준생
+                <input id="user_category2" type="radio" name="user_category" value="직장인">직장인
+                {% elif this.user_category == "신입생" %}
+                <input id="user_category2" type="radio" name="user_category" value="청소년">청소년
+                <input id="user_category2" type="radio" name="user_category" value="신입생" checked="checked">신입생
+                <input id="user_category2" type="radio" name="user_category" value="복학생">복학생
+                <input id="user_category2" type="radio" name="user_category" value="취준생">취준생
+                <input id="user_category2" type="radio" name="user_category" value="직장인">직장인
+                {% elif this.user_category == "복학생" %}
+                <input id="user_category2" type="radio" name="user_category" value="청소년">청소년
+                <input id="user_category2" type="radio" name="user_category" value="신입생">신입생
+                <input id="user_category3" type="radio" name="user_category" value="복학생" checked="checked">복학생
+                <input id="user_category2" type="radio" name="user_category" value="취준생">취준생
+                <input id="user_category2" type="radio" name="user_category" value="직장인">직장인
+                {% elif this.user_category == "취준생" %}
+                <input id="user_category2" type="radio" name="user_category" value="청소년">청소년
+                <input id="user_category2" type="radio" name="user_category" value="신입생">신입생
+                <input id="user_category2" type="radio" name="user_category" value="복학생">복학생
+                <input id="user_category4" type="radio" name="user_category" value="취준생" checked="checked">취준생
+                <input id="user_category2" type="radio" name="user_category" value="직장인">직장인
+                {% else %}
+                <input id="user_category2" type="radio" name="user_category" value="청소년">청소년
+                <input id="user_category2" type="radio" name="user_category" value="신입생">신입생
+                <input id="user_category2" type="radio" name="user_category" value="복학생">복학생
+                <input id="user_category2" type="radio" name="user_category" value="취준생">취준생
+                <input id="user_category5" type="radio" name="user_category" value="직장인" checked="checked">직장인
+                {% endif %}
+            </label>
+
+            <label>
+                <br>
+                <span>계열 선택 :</span>
+                {% if this.department == "libera" %}
+                <input id="department1" type="radio" name="department" value="libera" checked="checked">문과
+                <input id="department2" type="radio" name="department" value="science" >이과
+                <input id="department3" type="radio" name="department" value="art" >예능
+                <input id="department4" type="radio" name="department" value="training" >체육
+                {% elif this.department == "science" %}
+                <input id="department1" type="radio" name="department" value="libera" >문과
+                <input id="department2" type="radio" name="department" value="science" checked="checked">이과
+                <input id="department3" type="radio" name="department" value="art" >예능
+                <input id="department4" type="radio" name="department" value="training" >체육
+                {% elif this.department == "art" %}
+                <input id="department1" type="radio" name="department" value="libera" >문과
+                <input id="department2" type="radio" name="department" value="science" >이과
+                <input id="department3" type="radio" name="department" value="art" checked="checked">예능
+                <input id="department4" type="radio" name="department" value="training" >체육
+                {% else %}
+                <input id="department1" type="radio" name="department" value="libera" >문과
+                <input id="department2" type="radio" name="department" value="science" >이과
+                <input id="department3" type="radio" name="department" value="art" >예능
+                <input id="department4" type="radio" name="department" value="training" checked="checked">체육
+                {% endif %}
+            </label>
+            <label>
+                <br>
+                <span>닉니엠 입력 :</span>
+                <input type="text" name="nic_name" placeholder="닉네임입력" value="{{ this.nic_name }}"/>
+            </label>
+            <label>
+                <br>
+                <span>학과명 :</span>
+                <input id="name" type="text" name="major" placeholder="나의 학과명?" value="{{ this.major }}"/>
+            </label>
+            <label>
+                <span>학과 한 줄평 :</span>
+                <input id="comment" type="text" name="major_comment" placeholder="35자 내로 본인 학과를 써주세요." maxlength="35" value="{{ this.major_comment }}"/>
+            </label>
+            <label>
+                <span>우리 학과는? :</span>
+                <textarea id="major_story" name="major_story" placeholder="학과를 선택하게된 계기, 언론보도와는 다른 학과의 실상, 분위기, 졸업 후 진로, 만족도 등 다양한 관점에서 솔직하게 써주세요."></textarea>
+            </label>
+            <label>
+                <span>학과만족도 :</span>
+                    <select name="major_like">
+                        <option value="100">100점</option>
+                        <option value="80">80점</option>
+                        <option value="60">60점</option>
+                        <option value="40">40점</option>
+                        <option value="20">20점</option>
+                        <option value="0">0점</option>
+                    </select>
+            </label>    
+            <label>
+                <span>나의 진로 :</span>
+                <input id="job" type="text" name="my_job" placeholder="내가 선택한 진로는?" value="{{ this.job }}" />
+            </label>
+            <label>
+                <span>진로선택 이유 :</span>
+                <textarea id="job_reason" name="job_reason" placeholder="졸업후 진출하고 싶은 분야, 본인이 하고 싶은일, 본인의 진로고민, 왜 그러한 진로를 설정하게 되었고 그분야에 진출하고 싶은지 자세히 기술해주세요." ></textarea>
+            </label> 
+            <label>
+                <span>전공연관도 :</span>
+                    <select name="point_major">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+            <label>
+                <span>자격증 연관도 :</span>
+                    <select name="point_licence">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label> 
+            <label>
+                <span>독서 연관도 :</span>
+                    <select name="point_reading">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+            <label>
+                <span>복수전공 연관도 :</span>
+                    <select name="point_double_major">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+            <label>
+                <span>대외활동 연관도 :</span>
+                    <select name="point_extra">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+           <!--  <label>
+                <span>기타1 연관도 :</span>
+                    <select name="point_ex_1">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>
+            <label>
+                <span>기타2 연관도 :</span>
+                    <select name="point_ex_2">
+                        <option value="100">100%</option>
+                        <option value="80">80%</option>
+                        <option value="60">60%</option>
+                        <option value="40">40%</option>
+                        <option value="20">20%</option>
+                        <option value="0">0%</option>
+                    </select>
+            </label>  -->
+            <label>
+                <span>복수전공유무 :</span>
+                {% if this.check_double_major == "no" %}
+                    <input id="check1" type="radio" name="check_double_major" value="no" checked="checked">아니오
+                    <input id="check2" type="radio" name="check_double_major" value="yes" >예
+                {% else %}
+                <input id="check1" type="radio" name="check_double_major" value="no">아니오
+                <input id="check2" type="radio" name="check_double_major" value="yes" checked="checked">예
+                {% endif %}
+            </label>
+            <label>
+                <br>
+                <span>복수전공명 :</span>
+                <input id="double_major" type="text" name="double_major" placeholder="없으면 쓰지마세요." value="{{ this.double_major }}"/>
+            </label>    
+        <label>
+            <span>&nbsp;</span> 
+            <input type="submit" class="button" value="제출하기" /> 
+        </label>    
+    </form>
+</div>  
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

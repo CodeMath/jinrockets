@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script>{% if alert %}alert("동일한 이메일주소가 있습니다."){% endif%}</script>
+<style>
+#password{font-family: sans-serif;}
+#confirm_password{font-family: sans-serif;}
+</style>
+
+
+<div class="container">
+  <!-- Main component for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="row">
+    <p class="head" style="font-size: 70px;">회원가입</p>
+    <div class="col-md-6">
+        <form method="post">
+          {{ form.hidden_tag() }}
+          
+          {% from "_form_field.html" import render_field %}
+          {% for field in form %}
+          {% if field.widget.input_type != 'hidden' %}
+          {{ render_field(field) }}
+          {% endif %}
+          {% endfor %}
+          <input type="submit" value="submit">  
+        </form> 
+        <br>
+          <h2 style="margin: 0 auto;"> 또는 </h2>
+          <br>
+          <div class="facebook_login">
+          <a href="{{url_for('login')}}"><img src="../static/img/facebook_login.png" style="width: 200px;" alt="페이스북 로그인"></a>
+          <br>
+        <p style="font-size:14px;">* 본 서비스에 입력하신 정보는 페이스북 타임라인에 공개되지 않습니다.</p>
+        </div>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <div class="fb-like-box" data-href="https://www.facebook.com/jinrocket" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+        <br>
+        <br>
+      </div>
+    </div> 
+  </div>
+</div> <!-- /container -->
+{% endblock %}

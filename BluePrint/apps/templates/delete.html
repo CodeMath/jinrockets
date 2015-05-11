@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h2>주의! [관리자 권한으로 해당 글을 삭제합니다.]</h2>
+<form method="post">
+  <label>
+    <h3>정말로 삭제하시겠습니까?</h3>  
+    <input type="radio" name="delete" value="no">아니오
+    <input type="radio" name="delete" value="yes">예
+  </label>
+  <input type="submit" class="button" value="확인" /> 
+</form>
+
+{% endblock %}

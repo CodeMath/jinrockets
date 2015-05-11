@@ -1,0 +1,112 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="naver-site-verification" content="e10957e9cf6417f4bba80a079f1055f10383a32c"/>
+  <title>우리 학과 진로는?</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/navbar-fixed-top.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <!-- <link href="{{ url_for('static', filename='css/bootstrap-social.css') }}" rel="stylesheet"> -->
+  <!-- Facebook Open API to JavaScript-->
+
+  {% block head_js %}
+  {% endblock %}
+</head> 
+<body style>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "http://connect.facebook.net/ko_KR/sdk.js#xfbml=1&appId=533098830157790&version=v2.0"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- 모바일뷰 -->
+      <div class="navbar-header">
+       <!-- class="navbar-brand" -->
+     </div>
+     <!-- 네비게이션 -->
+     <div class="navbar-collapse collapse">
+      <!-- 좌측 -->
+      <ul class="nav navbar-nav">
+        <!-- 메온 로고 아이콘 -->
+        <li><a href="{{url_for('index')}}"><img src="../static/img/nav/logo1.png" style="height: 40px;"></a></li>
+        <!-- 메인화면 -->
+        {% if not main_on %}
+        <li><a href="{{url_for('index')}}"><img src="../static/img/nav/off/main1-off.png" style="height: 35px;"></a></li>
+        {% else %}
+        <li><a href="{{url_for('index')}}"><img src="../static/img/nav/on/main1.png" style="height: 35px;"></a></li>
+        {% endif%}
+        <!-- 종합 리스트 -->
+        {% if list_on %}
+        <li><a href="{{url_for('list_view')}}"><img src="../static/img/nav/on/search1.png" style="height: 35px;"></a></li>
+        {% else %}
+        <li><a href="{{url_for('list_view')}}"><img src="../static/img/nav/off/search1-off.png" style="height: 35px;"></a></li>
+        {% endif%}
+      </ul>
+      <!-- 우측 -->
+      <ul class="nav navbar-nav" style="float:right">
+        <!-- 페이스북 로그인 -->
+        <li><a href="{{url_for('login')}}"><img src="../static/img/nav/Facebook_Icon1.png" style="height: 35px; margin-top:-1px; margin-right:-10px;"></a></li>
+        <!-- 마이페이지 -->
+        {% if session.session_user_email %}
+        {% if not off1 %}
+        {% if not mypage_on %}
+        <li><a href="{{url_for('mypage')}}"><img src="../static/img/nav/off/mypage1-off.png" style="height: 35px;"></a></li>
+        {% else %}
+        <li><a href="{{url_for('mypage')}}"><img src="../static/img/nav/on/mypage1.png" style="height: 35px;"></a></li>
+        {% endif %}
+        {% endif  %}
+        {% endif %}
+        <!-- 등록하기 -->
+        {% if session.session_user_email %}
+        {% if not off %}
+        {% if write_on %}
+        <li><a href="{{url_for('write')}}"><img src="../static/img/nav/on/join1.png" style="height: 35px;"></a></li>
+        {% else %}
+        <li><a href="{{url_for('write')}}"><img src="../static/img/nav/off/join1-off.png" style="height: 35px;"></a></li>  
+        {% endif%}
+        {% endif %}
+        {% endif %}
+        <!-- 회원가입 -->
+        {% if not session.session_user_email %}
+        {% if not signup_on %}
+        <li><a href="{{url_for('signup')}}"><img src="../static/img/nav/off/signup1-off.png" style="height: 35px;"></a></li>
+        {% endif %}
+        {% if signup_on %}
+        <li><a href="{{url_for('signup')}}"><img src="../static/img/nav/on/signup1.png" style="height: 35px;"></a></li>
+        {% endif %}
+        {% endif %}
+
+        <!-- 로그인 -->
+        {% if not session.session_user_email %}
+        {% if signin_on %}
+        <li><a href="{{url_for('signin')}}"><img src="../static/img/nav/on/login1.png" style="height: 35px;"></a></li>
+        {% endif %}
+        {% if not signin_on %}
+        <li><a href="{{url_for('signin')}}"><img src="../static/img/nav/off/login1-off.png" style="height: 35px;"></a></li>
+        {% endif %}
+        {% endif %}
+        <!-- 로그아웃 -->
+        {% if session.session_user_email %}
+        <li><a href="{{url_for('logout')}}"><img src="../static/img/nav/off/logout1-off.png" style="height: 35px;"></a></li>
+        {% endif %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+{% block body %}
+
+{% endblock %}
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45423303-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body></html>

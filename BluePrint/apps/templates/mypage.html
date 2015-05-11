@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script src="/static/js/Chart.js"></script>
+
+{% for each in job_list %}
+	<br>
+	<!-- 양식 보여주기 -->
+	<div class="show_mypage" >
+		<h1>마이페이지</h1>
+			<div class="tag_mypage">
+				<h4><span class="glyphicon glyphicon-user"></span> &nbsp;닉네임 : </h4>
+				<h3>{{ each.nic_name }}</h3>		
+			</div>
+			
+			<div class="tag_mypage">
+				<h4><span class="glyphicon glyphicon-briefcase"></span>&nbsp;학과명 : </h4>
+				<h2>{{ each.major }}</h2>
+			</div>
+			
+			<div class="tag_mypage">
+				<h4><span class="glyphicon glyphicon-pencil"></span>&nbsp;우리 학과는? : </h4>
+				<p>{{ each.major_story }}</p>
+			</div>
+			
+			<div class="tag_mypage">
+				<h4><span class="glyphicon glyphicon-th-large"></span>&nbsp;학과만족도 : </h4>
+				<h2>{{ each.major_like }}점 </h2>
+			</div>
+			
+			<div class="tag_mypage">
+				<h4><span class="glyphicon glyphicon-star"></span>&nbsp;나의 진로 : </h4>
+				<h2>{{ each.job }}</h2>
+			</div>
+			
+			<div class="tag_mypage">
+			<h4><span class="glyphicon glyphicon-stats"></span>&nbsp;진로 선택 이유 : </h4>
+			<p>{{ each.job_reason }}</p>	
+			</div>
+			<div style="width:240px;; margin: 0 auto;">
+				<canvas id="canvas" class="canvas-{{ each.id }}" height="240" width="240"></canvas>
+			</div>
+			<div style="margin-left: 37.5%;">
+				<a href="{{url_for('modify', id=each.id)}}" style="margin:0 auto;"><img src="../static/img/fix_button.png" alt="수정하기" class="fix_buttons"></a>
+			</div>
+	</div>
+	{% endfor %}
+
+
+
+
+<!-- chart javascript -->
+<script>
+var radarChartData_set=[]
+{% for each in job_list %}
+
+var radarChartData{{each.id}} = {
+	labels: ["전공", "자격증", "복수전공", "대외활동", "독서" ],
+	datasets: [
+	{
+		label: "relations",
+		fillColor: "rgba(221,148,20,0.2)",
+		strokeColor: "rgba(248,182,44,1)",
+		pointColor: "rgba(221,148,20,1)",
+		pointStrokeColor: "rgb(255,255,255)",
+		pointHighlightFill: "rgb(221,148,20)",
+		pointHighlightStroke: "rgba(248,182,44,1)",
+		data: [{{ each.point_major }},{{ each.point_licence }},{{ each.point_double_major }},{{ each.point_reading }},{{ each.point_extra }}]
+	}
+	]
+};
+radarChartData_set.push( radarChartData{{ each.id }} )
+{% endfor %}
+
+var id_count_set=[ {% for each in job_list %} {{ each.id }}, {% endfor %} ]
+window.onload = function(){
+	for (var i=0; i<id_count_set.length; i++){
+		var x=document.getElementsByClassName("canvas-"+id_count_set[i])[0];
+		window.myRadar = new Chart(x.getContext("2d")).Radar(radarChartData_set[i], {
+			responsive: true
+		}); 
+	}
+}
+
+</script>
+{% endblock %}

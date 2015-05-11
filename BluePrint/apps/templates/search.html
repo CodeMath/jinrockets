@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<script src="/static/js/Chart.js"></script>
+
+<div class="row">
+  <div class="col-md-1" style="display:inline-block;">
+    <li style="font-size: 50px;">문</li>
+    <li style="font-size: 50px;">이</li>
+    <li style="font-size: 50px;">예</li>
+    <li style="font-size: 50px;">체</li>
+  </div>
+  <div class="col-md-9">
+
+    
+    <div class = "jumbotron">
+      {% for each in search_view['search_list_view'] %}
+       <div class="panel panel-default">
+        <div class="panel-heading"><a href="{{url_for('infor', name=each.major)}}">{{ each.major }}</a></div>
+        <div class="panel-body">
+          <p> * 한 줄 평가 : {{ each.major_comment }} </p>
+          <p> * 진로 선택 : {{ each.job }} </p>     
+          <div style="width:30%">
+            <canvas id="canvas" class="canvas-{{ each.id }}" height="260" width="260"></canvas>
+          </div>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+    <div id="additional"> </div>
+  </div>
+
+  
+
+  
+</div>  
+
+<div class="col-md-2">
+  <div class="ranking_submajor">
+    <h3>복전랭킹 학과</h3>
+    <h3>복전랭킹 학과</h3>
+    <h3>복전랭킹 학과</h3>
+    <h3>복전랭킹 학과</h3>
+    <h3>복전랭킹 학과</h3>
+    <h3>복전랭킹 학과</h3>
+  </div>
+</div>
+
+
+
+
+<!-- chart javascript -->
+
+
+<script>
+  var radarChartData_set=[]
+  {% for each in search_view['search_list_view'] %}
+  
+  var radarChartData{{each.id}} = {
+    labels: ["전공", "자격증", "복수전공", "외국어", "대외활동", "수상경력", "인턴쉽"],
+    datasets: [
+      {
+        label: "test",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data: [{{ each.point_major }},{{ each.point_licence }},{{ each.point_double_major }},{{ each.point_english }},{{ each.point_extra }},{{ each.point_award }},{{ each.point_internship }}]
+      }
+    ]
+  };
+  radarChartData_set.push( radarChartData{{ each.id }} )
+{% endfor %}
+
+var id_count_set=[
+{% for each in search_view['search_list_view'] %}
+    {{ each.id }},
+{% endfor %}
+]
+  window.onload = function(){
+
+    for (var i=0; i<=id_count_set.length; i++){
+      var x=document.getElementsByClassName("canvas-"+id_count_set[i])[0];
+    window.myRadar = new Chart(x.getContext("2d")).Radar(radarChartData_set[i], {
+      responsive: true
+    }); 
+    }
+    
+  }
+
+  </script>
+{% endblock %}

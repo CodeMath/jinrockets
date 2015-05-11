@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'JUA';
+  src: url('../fonts/JUA.otf');
+}
+@font-face {
+  font-family: 'HANNA';
+  src: url('../fonts/HANNA.otf');
+}
+.ranking_submajor{
+	z-index:950; position:fixed; padding-left:50px;
+}
+.col-md-1{
+	z-index:1000; position:fixed;
+}
+
+/*mypage*/
+
+.show_mypage{
+	background-color: #eee;
+	width: 600px;
+	border-radius: 10px;
+	border: none;
+	margin:0 auto; 
+	height: auto;
+	padding: 50px;
+}
+
+
+.show_mypage >.tag_mypage>h4{
+	font-family: "JUA", sans-serif,Arial;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	background-color: rgba(50,50,120,0.8);
+	color: rgb(255,255,255);
+	
+}
+
+.show_mypage >.tag_mypage{
+	display: block;
+	border: none;
+	font-family: "JUA", sans-serif,Arial;
+	border-radius: 10px;
+	background-color: rgb(255,255,255);
+	margin-bottom: 20px;
+	padding-top: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 10px;
+}
+
+.show_mypage>.tag_mypage>p{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.show_mypage h1{
+	text-align: center;
+	font-family: "HANNA",sans-serif,Arial;
+}
+.fix_buttons{
+	width: 120px;
+}
+
+
